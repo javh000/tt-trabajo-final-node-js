@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 
+import productsRouter from "./src/router/products.routes.js";
+import authRouter from "./src/router/auth.routes.js";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,7 +20,10 @@ const corsConfig = {
 app.use(express.json());
 app.use(cors(corsConfig));
 
-app.get("/", (req, res) => {
+app.use("/api/products", productsRouter);
+app.use("/auth", authRouter);
+
+app.use("/", (req, res) => {
   res.json("API Node-JS Express");
 });
 
