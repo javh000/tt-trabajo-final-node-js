@@ -73,5 +73,6 @@ export const deleteProduct = async (req, res) => {
       .json({ message: "Producto eliminado correctamente", product: product });
   } catch (error) {
     console.log("Controller error:", error.message);
+    return res.status(500).json({ error: error.message });
   }
 };
