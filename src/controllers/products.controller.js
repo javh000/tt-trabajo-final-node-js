@@ -33,12 +33,12 @@ export const getProduct = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const { name, price } = req.body;
-    const newProduct = await productsService.addProduct({ name, price });
+    const { name, price, category } = req.body;
+    const newProduct = await productsService.addProduct({ name, price, category });
 
     return res
       .status(201)
-      .json({ message: "Producto creado:", product: newProduct });
+      .json({ message: "Producto creado", product: newProduct });
   } catch (error) {
     if (error.message === "Faltan campos obligatorios") {
       return res.status(400).json({ error: error.message });
@@ -55,7 +55,7 @@ export const deleteProduct = async (req, res) => {
 
     return res.status(200).json({
       message: "Producto eliminado correctamente",
-      product: deletedProduct,
+      deletedProduct,
     });
   } catch (error) {
     if (error.message === "Error. No se encontró el producto a eliminar") {

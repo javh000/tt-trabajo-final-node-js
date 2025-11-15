@@ -1,20 +1,7 @@
-let data = [
-  { id: 1, name: "Producto 1", price: 1000 },
-  { id: 2, name: "Producto 2", price: 2000 },
-];
-
-const DB = async () => {
-  const fail = false;
-
-  if (fail) {
-    throw new Error("No se pudo conectar con la base de datos");
-  }
-
-  return data;
-};
+import * as productsModel from "../models/products.model.js";
 
 export const getAllProducts = async () => {
-  const products = await DB();
+  const products = await productsModel.getAllProducts();
   if (products.length === 0) {
     throw new Error("No hay productos");
   }
@@ -22,10 +9,7 @@ export const getAllProducts = async () => {
 };
 
 export const getProductById = async (id) => {
-  const products = await DB();
-
-  const product = products.find((product) => product.id == id);
-  console.log(product);
+  const product = await productsModel.getProductById(id);
 
   if (!product) {
     throw new Error("Producto no encontrado");
@@ -33,27 +17,18 @@ export const getProductById = async (id) => {
   return product;
 };
 
-export const addProduct = async ({ name, price }) => {
-  //   console.log(name, price);
-  if (!name || !price) {
+export const addProduct = async ({ name, price, category }) => {
+  if (!name || !price || !category) {
     throw new Error("Faltan campos obligatorios");
   }
-  const products = await DB();
-  const id = products.length + 1;
-  const newProduct = { id, name, price };
-  products.push(newProduct);
-
-  return newProduct;
+  return await productsModel.saveProduct({ name, price, category });
 };
 
 export const deleteProduct = async (id) => {
-  const products = await DB();
-  const product = products.find((product) => product.id == id);
-  if (!product) {
+  const deletedProduct = await productsModel.deleteProduct(id);
+  if (!deletedProduct) {
     throw new Error("Error. No se encontró el producto a eliminar");
   }
-  const productsUpdate = products.filter((product) => product.id != id);
-  data = productsUpdate;
-  const deletedProduct = product;
+
   return deletedProduct;
 };
