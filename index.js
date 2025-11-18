@@ -23,7 +23,7 @@ app.use(cors(corsConfig));
 app.use("/api/products", productsRouter);
 app.use("/auth", authRouter);
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.json("API Node-JS Express");
 });
 
