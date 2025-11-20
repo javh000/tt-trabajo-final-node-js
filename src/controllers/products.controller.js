@@ -18,7 +18,7 @@ export const getProduct = async (req, res) => {
   try {
     const id = req.params.id;
     // console.log(id);
-    //Se valida que id no sea campos en blanco ya que de faltar el id entra en la ruta api/products/ listando todos los productos
+    //Se valida que id no sea espacios en blanco ya que de faltar el id entra en la ruta api/products/ listando todos los productos
     if (id.trim() === "") {
       throw new Error("No se proporciono Id");
     }
