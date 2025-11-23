@@ -14,9 +14,9 @@ export const login = async (req, res) => {
 
   if (email === defaultUser.email && password === defaultUser.password) {
     const user = { id: defaultUser.id, email };
-    const token = await generateToken(user);
-    res.json({ message: "Usuario ingresado exitosamente", token });
+    const token = generateToken(user);
+    return res.json({ message: "Usuario ingresado exitosamente", token });
   } else {
-    res.status(401).json("error de autenticación");
+    return res.status(401).json("error de autenticación");
   }
 };

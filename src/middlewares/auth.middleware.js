@@ -5,8 +5,8 @@ const secret_ket = process.env.JWT_SECRET_KEY;
 
 export const authentication = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  if (!authHeader) {
-    return res.status(401).json({ error: "No se proporcionó un token" });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "No se proporcionó un token o es inválido" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -16,7 +16,7 @@ export const authentication = (req, res, next) => {
 
   jwt.verify(token, secret_ket, (error) => {
     if (error) {
-      return res.status(401).json({ error: error });
+      return res.status(401).json({ error: error.message });
     }
     next();
   });
