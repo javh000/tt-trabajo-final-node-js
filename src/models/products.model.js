@@ -4,6 +4,7 @@ import {
   getDocs,
   getDoc,
   addDoc,
+  updateDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
@@ -23,7 +24,7 @@ export const getAllProducts = async () => {
 export const getProductById = async (id) => {
   const productDoc = await getDoc(doc(productsCollection, id));
   if (productDoc.exists()) {
-    return productDoc.data();
+    return {id, ...productDoc.data()};
   } else {
     return null;
   }
@@ -38,6 +39,23 @@ export const saveProduct = async ({ name, price, category }) => {
     price,
     category,
   };
+};
+
+export const updateProduct = async ({ id, name, price, category }) => {
+  const productRef = doc(productsCollection, id);
+  const productDoc = await getDoc(productRef);
+  
+  if (!productDoc.exists()) {
+    return null;
+  }
+  
+    await updateDoc(productRef, {
+    name,
+    price,
+    category
+  });
+
+  return { id, name, price, category };
 };
 
 export const deleteProduct = async (id) => {

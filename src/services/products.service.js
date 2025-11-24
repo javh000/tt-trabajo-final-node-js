@@ -24,6 +24,13 @@ export const addProduct = async ({ name, price, category }) => {
   return await productsModel.saveProduct({ name, price, category });
 };
 
+export const updateProduct = async ({ id, name, price, category }) => {
+  if (!id || !name || !price || !category) {
+    throw new Error("Faltan campos obligatorios");
+  }
+  return await productsModel.updateProduct({ id, name, price, category });
+};
+
 export const deleteProduct = async (id) => {
   const deletedProduct = await productsModel.deleteProduct(id);
   if (!deletedProduct) {

@@ -247,6 +247,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "400 Actualizar producto sin datos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Moda\",\n    \"price\": 18950\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products/update/7sgOOTKSAsNt5RLaiS8K",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"update",
+								"7sgOOTKSAsNt5RLaiS8K"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -387,6 +426,45 @@
 						"api",
 						"products",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar producto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"category\": \"Moda\",\n    \"price\": 18950,\n    \"name\": \"Lentes de Sol UrbanShade\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/products/update/7sgOOTKSAsNt5RLaiS8K",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"update",
+						"7sgOOTKSAsNt5RLaiS8K"
 					]
 				}
 			},

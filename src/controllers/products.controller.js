@@ -39,7 +39,7 @@ export const getProduct = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    if (!req.body) {
+    if (!req.body || Object.keys(req.body).length === 0) {
       throw new Error("Falta el cuerpo en la solicitud");
     }
     const { name, price, category } = req.body;
@@ -58,6 +58,40 @@ export const addProduct = async (req, res) => {
     } else if (error.message === "Falta el cuerpo en la solicitud") {
       return res.status(400).json(error.message);
     }
+    console.error("Controller error:", error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (id.trim() === "") {
+      throw new Error("No se proporciono Id");
+    } else if (!req.body || Object.keys(req.body).length === 0) {
+      throw new Error("Falta el cuerpo en la solicitud");
+    }
+    const { name, price, category } = req.body;
+
+    const updateProduct = await productsService.updateProduct({
+      id,
+      name,
+      price,
+      category,
+    });
+
+    return res
+      .status(200)
+      .json({ message: "Producto actualizado", product: updateProduct });
+  } catch (error) {
+    if (
+      error.message === "Faltan campos obligatorios" ||
+      error.message === "Falta el cuerpo en la solicitud" ||
+      error.message === "No se proporciono Id"
+    ) {
+      return res.status(400).json({ error: error.message });
+    }
+
     console.error("Controller error:", error.message);
     return res.status(500).json({ error: error.message });
   }

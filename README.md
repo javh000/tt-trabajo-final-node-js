@@ -21,7 +21,7 @@ API para gestionar productos y autenticación de usuarios, construida con **Node
 
 ## Funcionalidades del Proyecto
 
-- Gestión de productos (crear, listar, obtener por ID, eliminar).
+- Gestión de productos (crear, listar, obtener por ID, actualizar, eliminar).
 - Autenticación de usuarios mediante JWT.
 - Conexión a Firestore para almacenamiento en la nube.
 - Middleware de validación y manejo de errores.
@@ -54,12 +54,13 @@ npm run start
 
 ### Productos (Protegidas)
 
-| Método | Ruta                   | Descripción               |
-| ------ | ---------------------- | ------------------------- |
-| GET    | `/api/products`        | Lista todos los productos |
-| GET    | `/api/products/:id`    | Devuelve producto por ID  |
-| POST   | `/api/products/create` | Crea un nuevo producto    |
-| DELETE | `/api/products/:id`    | Elimina producto por ID   |
+| Método | Ruta                       | Descripción                |
+| ------ | -------------------------- | -------------------------- |
+| GET    | `/api/products`            | Lista todos los productos  |
+| GET    | `/api/products/:id`        | Devuelve producto por ID   |
+| POST   | `/api/products/create`     | Crea un nuevo producto     |
+| PU T   | `/api/products/update/:id` | Actualizar producto por ID |
+| DELETE | `/api/products/:id`        | Elimina producto por ID    |
 
 ### Autenticación
 
