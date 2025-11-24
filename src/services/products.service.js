@@ -28,7 +28,17 @@ export const updateProduct = async ({ id, name, price, category }) => {
   if (!id || !name || !price || !category) {
     throw new Error("Faltan campos obligatorios");
   }
-  return await productsModel.updateProduct({ id, name, price, category });
+  const updateProduct = await productsModel.updateProduct({
+    id,
+    name,
+    price,
+    category,
+  });
+
+  if (!updateProduct) {
+    throw new Error("Error. No se encontró el producto para actualizar");
+  }
+  return updateProduct;
 };
 
 export const deleteProduct = async (id) => {

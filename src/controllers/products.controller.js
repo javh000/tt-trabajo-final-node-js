@@ -90,6 +90,10 @@ export const updateProduct = async (req, res) => {
       error.message === "No se proporciono Id"
     ) {
       return res.status(400).json({ error: error.message });
+    } else if (
+      error.message === "Error. No se encontró el producto para actualizar"
+    ) {
+      return res.status(404).json({ error: error.message });
     }
 
     console.error("Controller error:", error.message);
