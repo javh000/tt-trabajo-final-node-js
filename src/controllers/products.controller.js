@@ -1,46 +1,35 @@
 import * as productsService from "../services/products.service.js";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 
-export const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res, next) => {
   try {
     const products = await productsService.getAllProducts();
     return res.status(200).json(products);
-  } catch (error) {
-    console.error("Controller error:", error.message);
-
-    if (error.message === "No hay productos") {
-      return res.status(404).json({ error: error.message });
-    }
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const getProduct = async (req, res) => {
+export const getProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     // console.log(id);
     //Se valida que id no sea espacios en blanco ya que de faltar el id entra en la ruta api/products/ listando todos los productos
     if (id.trim() === "") {
-      throw new Error("No se proporciono Id");
+      throw new BadRequestError("No se proporciono Id");
     }
     const product = await productsService.getProductById(id);
     // console.log(product);
     return res.status(200).json(product);
-  } catch (error) {
-    if (error.message === "Producto no encontrado") {
-      return res.status(404).json({ error: error.message });
-    } else if (error.message === "No se proporciono Id") {
-      return res.status(400).json({ error: error.message });
-    }
-
-    console.error("Controller error:", error.message);
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const addProduct = async (req, res) => {
+export const addProduct = async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
-      throw new Error("Falta el cuerpo en la solicitud");
+      throw new BadRequestError("Falta el cuerpo en la solicitud");
     }
     const { name, price, category } = req.body;
     const newProduct = await productsService.addProduct({
@@ -52,24 +41,18 @@ export const addProduct = async (req, res) => {
     return res
       .status(201)
       .json({ message: "Producto creado", product: newProduct });
-  } catch (error) {
-    if (error.message === "Faltan campos obligatorios") {
-      return res.status(400).json({ error: error.message });
-    } else if (error.message === "Falta el cuerpo en la solicitud") {
-      return res.status(400).json(error.message);
-    }
-    console.error("Controller error:", error.message);
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     if (id.trim() === "") {
-      throw new Error("No se proporciono Id");
+      throw new BadRequestError("No se proporciono Id");
     } else if (!req.body || Object.keys(req.body).length === 0) {
-      throw new Error("Falta el cuerpo en la solicitud");
+      throw new BadRequestError("Falta el cuerpo en la solicitud");
     }
     const { name, price, category } = req.body;
 
@@ -83,29 +66,16 @@ export const updateProduct = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Producto actualizado", product: updateProduct });
-  } catch (error) {
-    if (
-      error.message === "Faltan campos obligatorios" ||
-      error.message === "Falta el cuerpo en la solicitud" ||
-      error.message === "No se proporciono Id"
-    ) {
-      return res.status(400).json({ error: error.message });
-    } else if (
-      error.message === "Error. No se encontró el producto para actualizar"
-    ) {
-      return res.status(404).json({ error: error.message });
-    }
-
-    console.error("Controller error:", error.message);
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     if (id.trim() === "") {
-      throw new Error("No se proporciono Id");
+      throw new BadRequestError("No se proporciono Id");
     }
 
     const deletedProduct = await productsService.deleteProduct(id);
@@ -114,14 +84,7 @@ export const deleteProduct = async (req, res) => {
       message: "Producto eliminado correctamente",
       deletedProduct,
     });
-  } catch (error) {
-    if (error.message === "Error. No se encontró el producto a eliminar") {
-      return res.status(404).json(error.message);
-    } else if (error.message === "No se proporciono Id") {
-      return res.status(400).json({ error: error.message });
-    }
-
-    console.log("Controller error:", error.message);
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    next(err)
   }
 };
