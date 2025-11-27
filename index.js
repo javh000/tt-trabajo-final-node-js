@@ -3,7 +3,6 @@ import cors from "cors";
 
 import productsRouter from "./src/router/products.routes.js";
 import authRouter from "./src/router/auth.routes.js";
-import { authentication } from "./src/middlewares/auth.middleware.js";
 import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 const app = express();
@@ -23,7 +22,7 @@ app.use(express.json());
 app.use(cors(corsConfig));
 
 app.use("/auth", authRouter);
-app.use("/api/products", authentication, productsRouter);
+app.use("/api/products", productsRouter);
 
 
 app.get("/", (req, res) => {
