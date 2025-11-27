@@ -52,14 +52,19 @@ npm run start
 
 ## Rutas
 
-### Productos (Protegidas)
+### Productos
 
 | Método | Ruta                       | Descripción                |
 | ------ | -------------------------- | -------------------------- |
 | GET    | `/api/products`            | Lista todos los productos  |
 | GET    | `/api/products/:id`        | Devuelve producto por ID   |
+
+### Productos (Protegidas)
+
+| Método | Ruta                       | Descripción                |
+| ------ | -------------------------- | -------------------------- |
 | POST   | `/api/products/create`     | Crea un nuevo producto     |
-| PU T   | `/api/products/update/:id` | Actualizar producto por ID |
+| PUT    | `/api/products/update/:id` | Actualizar producto por ID |
 | DELETE | `/api/products/:id`        | Elimina producto por ID    |
 
 ### Autenticación
@@ -72,7 +77,7 @@ npm run start
 
 ## Ejemplos de Peticiones localhost
 
-**Login de usuario:**
+**Login de usuario admin:**
 
 ```bash
 curl -X POST http://localhost:3000/auth/login \
@@ -80,18 +85,16 @@ curl -X POST http://localhost:3000/auth/login \
 -d '{"email":"test@gmail.com","password":"123456"}'
 ```
 
-**Obtener todos los productos (requiere token):**
+**Obtener todos los productos:**
 
 ```bash
 curl -X GET http://localhost:3000/api/products \
--H "Authorization: Bearer <TOKEN_ACA>"
 ```
 
-**Obtener producto por ID (requiere token):**
+**Obtener producto por ID:**
 
 ```bash
 curl -X GET http://localhost:3000/api/products/ID_DEL_PRODUCTO_ACA \
--H "Authorization: Bearer <TOKEN_ACA>"
 ```
 
 **Crear un producto (requiere token):**
@@ -155,6 +158,12 @@ Esto permite ejecutar las solicitudes pre-configuradas sin tener que escribirlas
 │ └── products.service.js
 ├── models/
 │ └── products.model.js
+├── middlewares/
+│ ├── auth.middleware.js      # Verifica JWT y protege rutas
+│ └── errorHandler.js         # Middleware centralizado de manejo de errores
+├── errors/
+│ ├── index.js                # Exporta clases de error (AppError, NotFoundError, etc.)
+│ └── AppError.js             # Clase base para errores de la aplicación
 ├── postman/
 │ └── TT-NodeJS-API.postman_collection.json # Colección Postman
 └── vercel.json # Configuración de despliegue
