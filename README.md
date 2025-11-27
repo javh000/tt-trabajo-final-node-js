@@ -104,13 +104,13 @@ curl -X POST http://localhost:3000/auth/login \
 **Obtener todos los productos:**
 
 ```bash
-curl -X GET http://localhost:3000/api/products \
+curl -X GET http://localhost:3000/api/products
 ```
 
 **Obtener producto por ID:**
 
 ```bash
-curl -X GET http://localhost:3000/api/products/ID_DEL_PRODUCTO_ACA \
+curl -X GET http://localhost:3000/api/products/ID_DEL_PRODUCTO_ACA
 ```
 
 **Crear un producto (requiere token admin):**
