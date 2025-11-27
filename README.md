@@ -25,7 +25,7 @@ API para gestionar productos y autenticación de usuarios, construida con **Node
 - Autenticación de usuarios mediante JWT.
 - Conexión a Firestore para almacenamiento en la nube.
 - Middleware de validación y manejo de errores.
-- Configuración lista para despliegue en Vercel.
+- Configuración para despliegue en Vercel.
 - Colección de pruebas en Postman para facilitar el consumo de la API.
 
 ---
@@ -73,7 +73,23 @@ npm run start
 | ------ | ------------- | ---------------------------------- |
 | POST   | `/auth/login` | Recibe credenciales y devuelve JWT |
 
+
 ---
+
+## Usuarios para pruebas
+
+### Administrador
+- **Email:** `test@gmail.com`
+- **Contraseña:** `123456` (string)
+- **Rol:** `admin`
+
+### Usuario común
+- **Email:** `user@gmail.com`
+- **Contraseña:** `1234` (string)
+- **Rol:** `user`
+
+---
+
 
 ## Ejemplos de Peticiones localhost
 
@@ -97,7 +113,7 @@ curl -X GET http://localhost:3000/api/products \
 curl -X GET http://localhost:3000/api/products/ID_DEL_PRODUCTO_ACA \
 ```
 
-**Crear un producto (requiere token):**
+**Crear un producto (requiere token admin):**
 
 ```bash
 curl -X POST http://localhost:3000/api/products/create \
@@ -106,7 +122,7 @@ curl -X POST http://localhost:3000/api/products/create \
 -d '{"name":"Producto 1","price":100, "category": "category"}'
 ```
 
-**Eliminar un producto (requiere token):**
+**Eliminar un producto (requiere token admin):**
 
 ```bash
 curl -X DELETE http://localhost:3000/api/products/ID_DEL_PRODUCTO_ACA \
@@ -127,8 +143,8 @@ Se incluye una colección de Postman para probar todas las rutas de la API despl
 
 La colección incluye variables pre-configuradas:
 
-- **{{base_url}}** → URL del servidor (deploy)
-- **{{token}}** → Token JWT que se actualiza automáticamente al hacer login.
+- **{{base_url}}** URL del servidor (deploy)
+- **{{token}}**  Token JWT que se actualiza automáticamente al hacer login.
 
 La petición **/auth/login** incluye un script que:
 
@@ -141,32 +157,32 @@ Esto permite ejecutar las solicitudes pre-configuradas sin tener que escribirlas
 ## Estructura del Proyecto
 
 ```
-├── index.js # Entrada del servidor
-├── package.json # Configuración de npm
-├── .env # Variables de entorno reales
-├── .env.example # Ejemplo de variables de entorno
+├── index.js                  // Entrada del servidor
+├── package.json              // Configuración de npm
+├── .env                      // Variables de entorno reales
+├── .env.example              // Ejemplo de variables de entorno a configurar
 ├── data/
-│ └── data.js # Configuración de Firebase/Firestore
+│ └── data.js                 // Configuración de Firebase/Firestore
 ├── routes/
 │ ├── auth.routes.js
 │ └── products.routes.js
-├── controllers/
+├── controllers/              // gestionan las solicitudes HTTP
 │ ├── auth.controller.js
 │ └── products.controller.js
-├── services/
+├── services/                 // encapsulan la lógica de negocio de la aplicación
 │ ├── auth.service.js
 │ └── products.service.js
-├── models/
+├── models/                   // capa intermedia encapsula la lógica relacionada con los datos
 │ └── products.model.js
 ├── middlewares/
-│ ├── auth.middleware.js      # Verifica JWT y protege rutas
-│ └── errorHandler.js         # Middleware centralizado de manejo de errores
+│ ├── auth.middleware.js      // Verifica JWT y protege rutas
+│ └── errorHandler.js         // Middleware centralizado de manejo de errores
 ├── errors/
-│ ├── index.js                # Exporta clases de error (AppError, NotFoundError, etc.)
-│ └── AppError.js             # Clase base para errores de la aplicación
+│ ├── index.js                // Exporta clases de error (AppError, NotFoundError, etc.)
+│ └── AppError.js             // Clase base para errores de la aplicación
 ├── postman/
-│ └── TT-NodeJS-API.postman_collection.json # Colección Postman
-└── vercel.json # Configuración de despliegue
+│ └── TT-NodeJS-API.postman_collection.json     // Colección Postman
+└── vercel.json                                 // Configuración de despliegue
 ```
 
 ---
@@ -179,5 +195,16 @@ Esto permite ejecutar las solicitudes pre-configuradas sin tener que escribirlas
 - JWT para autenticación
 - Vercel para despliegue
 - Postman para pruebas de API
+
+---
+
+## Próximas Mejoras
+
+La idea es continuar ampliando este proyecto incorporando nuevas funcionalidades para una aplicación completa en entorno real:
+
+- Gestión de Usuarios real.
+- Validación de datos con Zod.
+- Integración con Frontend en React.
+- Otras mejoras futuras que puedan surgir.
 
 ---
