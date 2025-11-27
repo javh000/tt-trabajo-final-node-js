@@ -57,6 +57,53 @@
 					"response": []
 				},
 				{
+					"name": "403 Error Login usuario no autorizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = pm.response.json();",
+									"",
+									"if (json.token) {",
+									"    pm.collectionVariables.set(\"token\", json.token);",
+									"    console.log(\"Token guardado en la colección:\", json.token);",
+									"} else {",
+									"    console.log(\"No se encontró 'token' en la respuesta.\");",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"user@gmail.com\",\n    \"password\" : \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "404 Obtener producto inexistente",
 					"request": {
 						"auth": {

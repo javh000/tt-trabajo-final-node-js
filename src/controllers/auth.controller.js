@@ -1,11 +1,24 @@
 import { generateToken } from "../utils/token-generator.js";
-import { BadRequestError, UnauthorizedError } from "../errors/index.js";
+import {
+  BadRequestError,
+  ForbiddenError,
+  UnauthorizedError,
+} from "../errors/index.js";
 
-const defaultUser = {
-  id: 1,
-  email: "test@gmail.com",
-  password: "123456",
-};
+const users = [
+  {
+    id: 1,
+    email: "test@gmail.com",
+    password: "123456",
+    role: "admin",
+  },
+  {
+    id: 2,
+    email: "user@gmail.com",
+    password: "1234",
+    role: "user",
+  },
+];
 
 export const login = async (req, res, next) => {
   try {
@@ -18,10 +31,26 @@ export const login = async (req, res, next) => {
       throw new BadRequestError("Email y contraseña son obligatorios");
     }
 
-    if (email !== defaultUser.email || password !== defaultUser.password) {
+    const userFound = users.find((user) => user.email === email);
+
+    if (!userFound) {
+      throw new UnauthorizedError("Usuario y contraseña incorrectos");
+    }
+
+    if (password !== userFound.password) {
       throw new UnauthorizedError("Usuario o contraseña incorrectos");
     }
-    const user = { id: defaultUser.id, email };
+
+    if (userFound.role !== "admin") {
+      throw new ForbiddenError(
+        "No tienes permisos para acceder a esta sección"
+      );
+    }
+    const user = {
+      id: userFound.id,
+      email: userFound.email,
+      role: userFound.role,
+    };
     const token = generateToken(user);
     return res.json({ message: "Usuario ingresado exitosamente", token });
   } catch (err) {
